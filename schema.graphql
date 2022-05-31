@@ -1,0 +1,42 @@
+type Token @entity {
+  id: ID!
+  tokenID: BigInt!
+  tokenURI: String!
+  ipfsURI: String!
+  image: String!
+  name: String!
+  gender: String!
+  type: String!
+  accesory1: String!
+  accesory2: String!
+  accesory3: String!
+  accesory4: String!
+  updatedAtTimestamp: BigInt!
+  owner: User!
+}
+
+type User @entity {
+  id: ID!
+  tokens: [Token!]! @derivedFrom(field: "owner")
+}
+
+type _Schema_
+  @fulltext(
+    name: "punkSearch"
+    language: en
+    algorithm: rank
+    include: [
+      {
+        entity: "Token"
+        fields: [
+          { name: "name" }
+          { name: "gender" }
+          { name: "type" }
+          { name: "accesory1" }
+          { name: "accesory2" }
+          { name: "accesory3" }
+          { name: "accesory4" }
+        ]
+      }
+    ]
+  )
